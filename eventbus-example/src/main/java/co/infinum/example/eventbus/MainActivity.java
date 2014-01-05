@@ -14,8 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import co.infinum.example.eventbus.fragments.FollowersFragment;
-import co.infinum.example.eventbus.fragments.TweetsFragment;
+import co.infinum.example.eventbus.fragments.BlueFragment;
+import co.infinum.example.eventbus.fragments.GreenFragment;
+import co.infinum.example.eventbus.fragments.RedFragment;
 
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -46,7 +47,7 @@ public class MainActivity extends FragmentActivity
 
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container, new TweetsFragment());
+            ft.replace(R.id.container, new RedFragment());
             ft.commit();
         }
     }
@@ -61,11 +62,14 @@ public class MainActivity extends FragmentActivity
             int titleResId = (int) mNavigationDrawerFragment.getAdapter().getItem(position);
 
             switch (titleResId) {
-                case R.string.tweets:
-                    ft.replace(R.id.container, new TweetsFragment());
+                case R.string.red_fragment:
+                    ft.replace(R.id.container, new RedFragment());
                     break;
-                case R.string.followers:
-                    ft.replace(R.id.container, new FollowersFragment());
+                case R.string.green_fragment:
+                    ft.replace(R.id.container, new GreenFragment());
+                    break;
+                case R.string.blue_fragment:
+                    ft.replace(R.id.container, new BlueFragment());
                     break;
             }
 
@@ -74,7 +78,9 @@ public class MainActivity extends FragmentActivity
     }
 
     public void onSectionAttached(int number) {
-        mTitle = getString(R.string.app_name);
+        if (mNavigationDrawerFragment != null && mNavigationDrawerFragment.getAdapter() != null) {
+            mTitle = getString((Integer) mNavigationDrawerFragment.getAdapter().getItem(number));
+        }
     }
 
     public void restoreActionBar() {
@@ -87,10 +93,7 @@ public class MainActivity extends FragmentActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+//            getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }
@@ -103,53 +106,10 @@ public class MainActivity extends FragmentActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
 }

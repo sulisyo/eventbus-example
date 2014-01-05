@@ -45,7 +45,7 @@ public class BaseFragment extends Fragment {
         onNetworkChange(isNetworkConnected(getActivity()));
     }
 
-    private boolean isNetworkConnected(Context context) {
+    protected boolean isNetworkConnected(Context context) {
 
         if (context == null) {
             return true;
