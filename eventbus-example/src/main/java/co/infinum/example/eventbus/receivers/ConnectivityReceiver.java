@@ -3,7 +3,10 @@ package co.infinum.example.eventbus.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import co.infinum.example.eventbus.Constants;
+import co.infinum.example.eventbus.helpers.ThreadHelper;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -13,6 +16,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(Constants.LOG_TAG, "Sending event! " + ThreadHelper.getThreadInfo());
         EventBus.getDefault().post(new NetworkConnectionChanged());
     }
 

@@ -4,8 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
+import co.infinum.example.eventbus.Constants;
 import co.infinum.example.eventbus.R;
+import co.infinum.example.eventbus.helpers.ThreadHelper;
 import co.infinum.example.eventbus.receivers.ConnectivityReceiver;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Configuration;
@@ -41,8 +44,21 @@ public class BaseFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    // will be called on the main thread
     public void onEventMainThread(ConnectivityReceiver.NetworkConnectionChanged event) {
+        Log.d(Constants.LOG_TAG, "in onEventMainThread! " + ThreadHelper.getThreadInfo());
+
         onNetworkChange(isNetworkConnected(getActivity()));
+    }
+
+    // will be called on a background thread
+    public void onEventBackgroundThread(ConnectivityReceiver.NetworkConnectionChanged event) {
+        Log.d(Constants.LOG_TAG, "in onEventBackgroundThread! " + ThreadHelper.getThreadInfo());
+    }
+
+    // will be called on the same thread which sent the event
+    public void onEvent(ConnectivityReceiver.NetworkConnectionChanged event) {
+        Log.d(Constants.LOG_TAG, "in onEvent! " + ThreadHelper.getThreadInfo());
     }
 
     protected boolean isNetworkConnected(Context context) {
