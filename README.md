@@ -4,4 +4,4 @@ A small sample app showing off how to use eventbus with a broadcast receiver to 
 
 Eventbus repository:
 
-  - https://github.com/greenrobot/EventBus
+  https://github.com/greenrobot/EventBus
